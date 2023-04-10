@@ -5,11 +5,12 @@
 /*****************************************************************************/
 
 #include <ctype.h>
+#include <stdio.h>
 #include "cesarCypher.h"
 
-char cypher(char chr, int shift)
+char cypher(char chr, long int shift)
 {
-    int shift_n;
+    long int shift_n;
     shift_n = shift % 26;
     if (isupper(chr))
     {
@@ -21,15 +22,15 @@ char cypher(char chr, int shift)
     }
     else if (isdigit(chr))
     {
-        int shift_d = shift_n % 10;
+        long int shift_d = shift_n % 10;
         return (((chr - '0') + shift_d) % 10) + '0';
     }
     else return chr;
 }
 
-char unCypher(char chr, int shift)
+char unCypher(char chr, long int shift)
 {
-    int shift_n;
+    long int shift_n;
     shift_n = shift % 26;
     if (isupper(chr))
     {
@@ -41,57 +42,54 @@ char unCypher(char chr, int shift)
     }
     if (isdigit(chr))
     {
-        int shift_d = shift_n % 10;
+        long int shift_d = shift_n % 10;
         return ((((chr - '0') - shift_d) + 10) % 10) + '0';
     }
     else return chr;
 }
     
-int cesarCypher(char *cypherText, char *plainText, int key)
+long int cesarCypher(char *cypherText, char *plainText, long int key)
 {
-    int i=0;
-    while (plainText[i])
+    long int i=0;
+    while (plainText[i] != '\0')
     {
         cypherText[i] = cypher(plainText[i], key);
         i++;
         
     }
-    cypherText[i] = '\0'; 
-    return i-1;
+    return i;
 }
 
-int rotaryCesarCypher(char *cypherText, char *plainText, int key)
+long int rotaryCesarCypher(char *cypherText, char *plainText, long int key)
 {
-    int i=0;
-    int shift_n;
+    long int i=0;
+    long int shift_n;
     shift_n = key;
-    while (plainText[i])
+    while (plainText[i] != '\0')
     {
         cypherText[i] = cypher(plainText[i], shift_n);
         i++;
         shift_n++;
     }
-    cypherText[i] = '\0';
-    return i-1;
+    return i;
 }
 
-int cesarUnCypher(char *plainText, char *cypherText, int key)
+long int cesarUnCypher(char *plainText, char *cypherText, long int key)
 {
-    int i=0;
+    long int i=0;
     while (cypherText[i])
     {
         plainText[i] = unCypher(cypherText[i], key);
         i++;
         
     }
-    plainText[i] = '\0'; 
-    return i-1;
+    return i;
 }
 
-int rotaryCesarUnCypher(char *plainText, char *cypherText, int key)
+long int rotaryCesarUnCypher(char *plainText, char *cypherText, long int key)
 {
-    int i=0;
-    int shift_n;
+    long int i=0;
+    long int shift_n;
     shift_n = key;
     while (cypherText[i])
     {
@@ -99,8 +97,7 @@ int rotaryCesarUnCypher(char *plainText, char *cypherText, int key)
         shift_n++;
         i++;
     }
-    plainText[i] = '\0';
-    return i-1;
+    return i;
 }
 
 
