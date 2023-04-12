@@ -179,7 +179,15 @@ int main(int argc, char **argv)
            
     if (outputFileName == NULL)
     {
-        fprintf(stdout, "\n%s\n", outputBuffer);
+        if (inputFileName == NULL)
+        {
+            fprintf(stdout, "\n");
+        }
+        fprintf(stdout, "%s", outputBuffer);
+        if (inputFileName == NULL)
+        {
+            fprintf(stdout, "\n");
+        }
         return 0;
     }
     else
