@@ -4,8 +4,6 @@
 /*                                                                           */
 /*****************************************************************************/
 
-/* This Version will cypher and uncypher only files, no more stdin           */
-/* if no output file is provided, the srdout will be used as output          */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,6 +11,7 @@
 #include <string.h>
 #include "cesarCypher.h"
 
+#define INITIAL_SIZE 100
 #define SET_ROTARY 0x1
 #define SET_DECYPHER 0x2
 #define SET_KEY 0x4
@@ -55,8 +54,10 @@ int main(int argc, char **argv)
     //Verify if the input file is set
     if (inputFileName == NULL)
     {
-        fprintf(stderr, "Input file missing.\nUse -i <file>.\n");
-        return 1;
+        /*fprintf(stderr, "Input file missing.\nUse -i <file>.\n");
+        return 1;                                                  */
+         
+
     }
     //Verify if the Key is not Set
     if (!(cFlags & SET_KEY))
@@ -74,36 +75,57 @@ int main(int argc, char **argv)
     */    
     //Try to Open the input file
     FILE *inputFilePtr;
-    size_t fileSize;
-    
-    inputFilePtr = fopen(inputFileName, "r");
-    
-    if (inputFilePtr == NULL)
-    {
-        fprintf(stderr, "The file '%s' can't be opened or don't exist.\n", inputFileName);
-        return 1;
-    }
-
-    fseek(inputFilePtr, 0L, SEEK_END);
-    fileSize = ftell(inputFilePtr);
-    fseek(inputFilePtr, 0L, SEEK_SET);
-
-    //Copy the content of input file to the input buffer
+    size_t fileSize = 0;
     char *inputBuffer;
-    inputBuffer = malloc(fileSize);
-
-    if (inputBuffer == NULL)
+    long int max_size = INITIAL_SIZE;
+    char ch;
+    if (inputFileName != NULL)
     {
-        fprintf(stderr, "No more memory.\n Execution Terminated.\n");
-        return 1;
+        inputFilePtr = fopen(inputFileName, "r");
+    
+        if (inputFilePtr == NULL)
+        {
+            fprintf(stderr, "The file '%s' can't be opened or don't exist.\n", inputFileName);
+            return 1;
+        }
+
+        fseek(inputFilePtr, 0L, SEEK_END);
+        fileSize = ftell(inputFilePtr);
+        fseek(inputFilePtr, 0L, SEEK_SET);
+
+        //Copy the content of input file to the input buffer
+        inputBuffer = malloc(fileSize);
+
+        if (inputBuffer == NULL)
+        {
+            fprintf(stderr, "No more memory.\n Execution Terminated.\n");
+            return 1;
+        }
+
+        if (fread(inputBuffer, sizeof(char), fileSize, inputFilePtr) != fileSize)
+        {
+            fprintf(stderr, "Error while file reading.\n");
+            return 1;
+        }
+        fclose(inputFilePtr);
+    }
+    else
+    {
+        // Get inout from stdin
+        inputBuffer = malloc(sizeof(char) * max_size);
+
+        while ((ch = getc(stdin)) != EOF)
+        {
+            inputBuffer[fileSize++] = ch;
+            if (fileSize == max_size)
+            {
+                max_size *= 2;
+                inputBuffer = realloc(inputBuffer, max_size);
+            }
+        }
+        inputBuffer = realloc(inputBuffer, fileSize);
     }
 
-    if (fread(inputBuffer, sizeof(char), fileSize, inputFilePtr) != fileSize)
-    {
-        fprintf(stderr, "Error while file reading.\n");
-        return 1;
-    }
-    fclose(inputFilePtr);
 
     //Create a output buffer
     char *outputBuffer;
@@ -157,7 +179,7 @@ int main(int argc, char **argv)
            
     if (outputFileName == NULL)
     {
-        fprintf(stdout, "%s", outputBuffer);
+        fprintf(stdout, "\n%s\n", outputBuffer);
         return 0;
     }
     else
