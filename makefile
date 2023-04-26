@@ -5,7 +5,7 @@ all:
 
 clean:
 	rm -rf ./obj/* ./bin/*
-
+	rm ccypher
 
 run:
 	./bin/main

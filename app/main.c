@@ -78,7 +78,7 @@ int main(int argc, char **argv)
     size_t fileSize = 0;
     char *inputBuffer;
     long int max_size = INITIAL_SIZE;
-    char ch;
+    int ch;
     if (inputFileName != NULL)
     {
         inputFilePtr = fopen(inputFileName, "r");
@@ -116,7 +116,7 @@ int main(int argc, char **argv)
 
         while ((ch = getc(stdin)) != EOF)
         {
-            inputBuffer[fileSize++] = ch;
+            inputBuffer[fileSize++] = (char) ch;
             if (fileSize == max_size)
             {
                 max_size *= 2;
