@@ -205,7 +205,7 @@ int main(int argc, char **argv)
 
         if (fwrite(outputBuffer, sizeof(char), fileSize, outputPtr) != fileSize)
         {
-            fprintf(stderr, "Failure on writing on file '%c'.\n", outputFileName);
+            fprintf(stderr, "Failure on writing on file '%s'.\n", outputFileName);
             return 1;
         }
         return 0;
