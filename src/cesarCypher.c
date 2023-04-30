@@ -26,8 +26,10 @@ int cypher(int chr, unsigned int shift)
 
     else if (isdigit(chr))
     {
-        long int shift_d = shift_n % 10;
-        return (((chr - '0') + shift_d) % 10) + '0';
+        shift_n = shift_n % 10;
+        if (!shift_n)
+            shift_n++;
+        return (((chr - '0') + shift_n) % 10) + '0';
     }
 
     else return chr;
@@ -52,8 +54,10 @@ int unCypher(int chr, unsigned int shift)
 
     if (isdigit(chr))
     {
-        long int shift_d = shift_n % 10;
-        return ((((chr - '0') - shift_d) + 10) % 10) + '0';
+        shift_n = shift_n % 10;
+        if (!shift_n)
+            shift_n++;
+        return ((((chr - '0') - shift_n) + 10) % 10) + '0';
     }
     
     else return chr;
