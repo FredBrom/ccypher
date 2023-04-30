@@ -1,4 +1,4 @@
-<h1>Cesar's Cypher 1.2</h1>
+<h1>Cesar's Cypher 1.3</h1>
 
 <p>Cesar cypher is a cypher that encodes and decodes text and digits with the 
 Cesar's algorithm of encriptation. The algorithm original form of Cesar's algorithm 
