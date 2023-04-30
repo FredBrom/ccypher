@@ -4,6 +4,6 @@
 - No more suport for stdin<br />
 - Rotary cypher is no longer over the line, but over the entire file.<br />
 1.2 - Stable Version<br />
-- Input from stdin available again.
-
-
+- Input from stdin available again.<br />
+1.3 - Stable Version<br />
+- standard input output simplified.<br />

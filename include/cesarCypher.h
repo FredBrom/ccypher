@@ -7,11 +7,8 @@
 #ifndef CESAR_CYPHER_H
 #define CESAR_CYPHER_H
 
-
-long int cesarCypher(char *cypherText, char *plainText,  long int key);
-long int rotaryCesarCypher(char *cypherText, char *plainText, long int key);
-long int cesarUnCypher(char *plainText, char *cypherText, long int key);
-long int rotaryCesarUnCypher(char *plainText, char *cypherText, long int key);
+int cypher(int chr, unsigned int shift);
+int unCypher(int chr, unsigned int shift);
 
 #endif
 
